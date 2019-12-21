@@ -42,7 +42,7 @@ function isUnixTimeStamp(string) {
 app.get('/api/timestamp/:date_string?', function (req, res) {
   const dateString = req.params.date_string
   let date
-  if (dateString === '') {
+  if (dateString === undefined) {
     date = new Date()
   } else if (isIsoDate(dateString)) {
     date = new Date(dateString)
