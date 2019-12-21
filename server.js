@@ -28,12 +28,12 @@ function isIsoDate(string) {
   const dateRegex = /^\d{4}-\d{2}-\d{2}$/
   if (!dateRegex.test(string)) return false
   const date = new Date(string)
-  return date.toISOString === string
+  return date.toISOString().split('T')[0] === string
 }
 
 function isUnixTimeStamp(string) {
   const numberRegex = /^\d+$/
-  if (numberRegex.test(string)) return true
+  if (!numberRegex.test(string)) return false
   // some number with leading zeroes
   if (string.length > 1 && string[0] === '0') return false
   return true
@@ -49,7 +49,6 @@ app.get('/api/timestamp/:date_string?', function (req, res) {
   } else if (isUnixTimeStamp(dateString)) {
     date = new Date(+dateString)
   } else {
-    res.status(400)
     res.json({error: 'Invalid Date'})
     return
   }
