@@ -26,7 +26,7 @@ app.get("/api/hello", function (req, res) {
 
 function isIsoDate(string) {
   const dateRegex = /^\d{4}-\d{2}-\d{2}$/
-  if (dateRegex.test(string)) return true
+  if (!dateRegex.test(string)) return false
   const date = new Date(string)
   return date.toISOString === string
 }
