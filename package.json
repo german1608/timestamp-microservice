@@ -23,5 +23,6 @@
 		"express",
 		"freecodecamp"
 	],
-	"license": "MIT"
+	"license": "MIT",
+	"author": "German Robayo"
 }

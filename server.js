@@ -24,6 +24,40 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+function isIsoDate(string) {
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+  if (dateRegex.test(string)) return true
+  const date = new Date(string)
+  return date.toISOString === string
+}
+
+function isUnixTimeStamp(string) {
+  const numberRegex = /^\d+$/
+  if (numberRegex.test(string)) return true
+  // some number with leading zeroes
+  if (string.length > 1 && string[0] === '0') return false
+  return true
+}
+
+app.get('/api/timestamp/:date_string?', function (req, res) {
+  const dateString = req.params.date_string
+  let date
+  if (dateString === '') {
+    date = new Date()
+  } else if (isIsoDate(dateString)) {
+    date = new Date(dateString)
+  } else if (isUnixTimeStamp(dateString)) {
+    date = new Date(+dateString)
+  } else {
+    res.status(400)
+    res.json({error: 'Invalid Date'})
+    return
+  }
+  res.json({
+    unix: date.getTime(),
+    utc: date.toUTCString()
+  })
+})
 
 
 // listen for requests :)
